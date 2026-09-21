@@ -1,0 +1,3 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDefinition classID="{BEF162F2-8F8F-440B-9813-146DC7A62A87}" name="New Keyboard" category="Keyboard"
+                  nativeCode="KeyboardDevice" surfaceFile="New Keyboard(2).surface.xml"/>

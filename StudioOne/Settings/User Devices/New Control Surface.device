@@ -1,0 +1,3 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDefinition classID="{E2153FA7-7A1A-4764-9010-B2686B9A4A6C}" name="New Control Surface" category="Surface"
+                  nativeCode="ControlSurfaceDevice" surfaceFile="New Control Surface.surface.xml"/>

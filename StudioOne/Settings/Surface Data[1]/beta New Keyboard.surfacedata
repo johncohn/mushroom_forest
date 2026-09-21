@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SurfaceData surfaceID="{7ADCA627-592D-403C-8AFE-3158ABE1766E}">
+	<SurfaceDeviceAssignment deviceID="{11111111-1111-1111-1111-111111111111}" friendlyName="static">
+		<List x:id="pages">
+			<SurfaceAssignmentPage/>
+		</List>
+	</SurfaceDeviceAssignment>
+	<SurfaceDeviceAssignment deviceID="{3713E26C-2FCA-4024-9F25-17E9D2BE2B9B}" friendlyName="Impact">
+		<List x:id="pages">
+			<SurfaceAssignmentPage/>
+		</List>
+	</SurfaceDeviceAssignment>
+</SurfaceData>

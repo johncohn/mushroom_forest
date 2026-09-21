@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ControlSurface>
+	<Controls>
+		<Control name="controlb0034" title="Control1" type="knob" options="receive public">
+			<MidiMessage status="#B0" channel="0" address="#34"/>
+		</Control>
+	</Controls>
+</ControlSurface>
