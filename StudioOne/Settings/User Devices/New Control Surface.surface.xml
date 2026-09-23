@@ -4,5 +4,17 @@
 		<Control name="controlb0034" title="Control1" type="knob" options="receive public">
 			<MidiMessage status="#B0" channel="0" address="#34"/>
 		</Control>
+		<Control name="controlb0033" title="Control2" type="knob" options="receive public">
+			<MidiMessage status="#B0" channel="0" address="#33"/>
+		</Control>
+		<Control name="controlb0032" title="Control3" type="knob" options="receive public">
+			<MidiMessage status="#B0" channel="0" address="#32"/>
+		</Control>
+		<Control name="controlb0031" title="Control4" type="knob" options="receive public">
+			<MidiMessage status="#B0" channel="0" address="#31"/>
+		</Control>
+		<Control name="controlb0035" title="Control5" type="button" options="receive public">
+			<MidiMessage status="#B0" channel="0" address="#35"/>
+		</Control>
 	</Controls>
 </ControlSurface>
