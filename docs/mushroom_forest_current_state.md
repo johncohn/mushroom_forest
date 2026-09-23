@@ -1,30 +1,78 @@
-﻿# Mushroom Forest – Current System Checkpoint
+# Mushroom Forest – Current System Documentation
 
-**Checkpoint:** September 21, 2026
+**Current checkpoint:** September 23, 2026
 
-This document describes the current working Mushroom Forest lighting/audio system, its configuration, and the planned next steps.
+This document describes the current working Mushroom Forest lighting/audio system, how the pieces fit together, what is controlled from configuration, what to edit when changing the show, and how to save/version the working system.
 
-## System Architecture
+## 1. System Overview
 
-The installation currently uses:
+The system currently uses:
 
-- **grandMA2 onPC v3.9.60.28** as the master show/state controller.
-- **Studio One 5** for continuous environmental audio.
-- **LoopBe Internal MIDI** to carry MIDI from grandMA2 to Studio One.
-- Mushroom controllers send MIDI inputs to grandMA2.
-- grandMA2 controls both the lighting state and the corresponding Studio One audio state.
+- **grandMA2 onPC v3.9.60** as the master show/state controller.
+- **Studio One 5** for continuous environmental audio playback.
+- **LoopBe Internal MIDI** for MIDI from grandMA2 to Studio One.
+- **Git/GitHub** repository: `https://github.com/johncohn/mushroom_forest`
 
-The intended architecture is:
+grandMA2 is the master state machine. Studio One continuously plays the environmental tracks, while grandMA2 controls their levels and transport.
 
-Mushrooms / automatic sequence -> grandMA2 -> lighting + MIDI audio control -> Studio One
+## 2. Current Working Files
 
-grandMA2 is the master state machine.
+### grandMA2 live working show
 
-## grandMA2 Daily Cycle
+```text
+C:\ProgramData\MA Lighting Technologies\grandma\gma2_V_3.9.60\shows\mushroom_forest_current.show.gz
+```
 
-Executor **106 – Daily Cycle** runs **Sequence 2**.
+grandMA2 actively saves this file.
 
-Current cue structure:
+### Git-managed grandMA2 checkpoint
+
+```text
+C:\Users\Mushroom Forrest\Desktop\mushroom_forest\grandMA2\mushroom_forest_current.show.gz
+```
+
+The Git copy is a checkpoint. grandMA2 does not write directly into the Git repository.
+
+### Studio One live working song
+
+```text
+C:\Users\Mushroom Forrest\Desktop\mushroom_forest\StudioOne\Mushroom Forest Sound_Current.song
+```
+
+Studio One is working directly from the Git-managed directory.
+
+## 3. Studio One Tracks
+
+Active environmental tracks:
+
+- Water
+- day-forest
+- night-forest
+- thunderstorm
+
+A second hidden `night-forest` track was discovered and was causing unexpected extra Night volume. It should remain **muted**.
+
+## 4. MIDI CC Assignments
+
+| MIDI CC | Function | Configured Level |
+|---:|---|---:|
+| 49 | Water | 45 |
+| 50 | Night forest | 50 |
+| 51 | Day forest | 50 |
+| 52 | Thunderstorm | 30 |
+| 53 | Studio One Transport Start | 127 pulse |
+
+`0` means silent for CC49-52.
+
+CC53 is configured in Studio One as **Button (press/release)** assigned to:
+
+```text
+Transport -> Start
+```
+
+## 5. Daily Cycle – Executor 106
+
+Executor 106 uses Sequence 2.
 
 | Cue | State |
 |---|---|
@@ -37,331 +85,227 @@ Current cue structure:
 | 3 | Night |
 | 4 | Dawn |
 
-Cue 4 loops back to Cue 1.
-
-Each cue has its own **Trig Time**, so different parts of the show can have different durations.
-
-For example, Thunderstorm could eventually be 30 seconds while Rainbow is 60 seconds, Night is several minutes, etc.
-
-## Important Executors
-
-- 102 – Dark Mode
-- 103 – Night
-- 104 – Rainbow wrapper
-- 105 – Thunderstorm
-- 106 – Daily Cycle
-- 109 – Dark Mode
-- 111 – Day
-- 113 – Rainbow
-- 115 – White
-
-Important discovery:
-
-Executor 106 originally had **Off On Overwritten** enabled. This caused the Daily Cycle to stop when another executor such as Rainbow took control.
-
-**Off On Overwritten is now OFF on Executor 106.**
-
-This allows Daily Cycle to continue underneath temporary effects.
-
-## Daily Cycle Lighting Commands
-
-Current Sequence 2 commands include:
-
-Cue 1 Day:
-
-    Go Executor 111
-
-Cue 1.1 Thunderstorm:
-
-    Off Executor 111 ; Go Executor 105 ; Macro 22
-
-Cue 1.2 Rainbow:
-
-    Off Executor 105 ; Go Executor 113 ; Macro 21
-
-Cue 1.3 Rainbow Off:
-
-    Off Executor 113 ; Go Executor 111
-
-Cue 2 Dusk:
-
-    Off Executor 113 ; Off Executor 105 ; Off Executor 111 ; Macro 23
-
-Cue 3 Night:
-
-    Off Executor 113 ; Off Executor 109
-
-Cue 4 Dawn:
-
-    Off Executor 113 ; Off Executor 109 ; Macro 24
-
-## Studio One Audio
-
-The Studio One song contains continuous environmental audio tracks.
-
-Important tracks:
-
-- Water
-- day-forest
-- night-forest
-- thunderstorm
-
-There is also an unused/duplicate thunderstorm track. The real thunderstorm waveform used by the system is the mapped thunderstorm track.
-
-Rainbow currently has no separate soundtrack and uses the Day audio.
-
-Dawn and Dusk are audio transitions rather than separate recordings.
-
-## MIDI Audio Mapping
-
-grandMA2 sends MIDI Control Change commands to Studio One through LoopBe Internal MIDI.
-
-Current mapping:
-
-| Audio | MIDI CC | Nominal Level |
-|---|---:|---:|
-| Water | 49 | 41 |
-| Night | 50 | 85 |
-| Day | 51 | 85 |
-| Thunderstorm | 52 | 41 |
-
-A value of **0 means silent**.
-
-These levels are provisional and should be tuned while physically listening in the Mushroom Forest.
-
-Water is intended to remain a constant background layer and is not affected by normal Day/Night/Thunderstorm transitions.
-
-## Studio One Control Surface
-
-Studio One has a **New Control Surface** receiving from:
-
-    LoopBe Internal MIDI
-
-Learned controls exist for:
-
-- CC49
-- CC50
-- CC51
-- CC52
-
-These are linked through Studio One Control Link to the corresponding track volume faders.
-
-The Studio One settings folders `Surface Data[1]` and `User Devices` have been copied into the Git repository so these mappings can be reconstructed.
-
-## Audio Macros
-
-### Macro 21 – Audio Day
-
-Used when leaving Thunderstorm and entering Rainbow/Day audio.
-
-Thunderstorm fades from 41 -> 0.
-
-Day fades from 0 -> 85.
-
-Approximately 10-second transition.
-
-### Macro 22 – Audio Thunderstorm
-
-Used when entering Thunderstorm.
-
-Day fades from 85 -> 0.
-
-Thunderstorm fades from 0 -> 41.
-
-Approximately 10-second transition.
-
-### Macro 23 – Audio Dusk
-
-Crossfades:
-
-Day -> Night
-
-The transition duration is read automatically from **Sequence 2 Cue 2 Trig Time**.
-
-### Macro 24 – Audio Dawn
-
-Crossfades:
-
-Night -> Day
-
-The transition duration is read automatically from **Sequence 2 Cue 4 Trig Time**.
-
-## Lua Timing Discovery
-
-grandMA2 Lua support was tested successfully.
-
-The Daily Cycle executor is Executor 106, but its underlying sequence is:
-
-    Sequence 2
-
-For cue objects, property index **3** is:
-
-    Trig Time
-
-For example:
-
-    gma.show.property.get(h,3)
-
-can read the cue duration.
-
-This allows audio fades to automatically follow the timing programmed into the Daily Cycle.
-
-## Mushroom Config Plugin
-
-Plugin **2** is named:
-
-    Mushroom Config
-
-The plugin currently establishes a central configuration structure:
-
-    CONFIG = {
-        audio = {
-            water        = { cc = 49, level = 41 },
-            night        = { cc = 50, level = 85 },
-            day          = { cc = 51, level = 85 },
-            thunderstorm = { cc = 52, level = 41 }
-        },
-
-        timing = {
-            day          = 40,
-            thunderstorm = 40,
-            rainbow      = 40,
-            newday       = 40,
-            dusk         = 40,
-            night        = 40,
-            dawn         = 40
-        },
-
-        fade = {
-            thunderstorm = 10,
-            rainbow      = 10
-        }
+All current cue trigger times are temporarily **40 seconds** for development/testing.
+
+## 6. Architecture
+
+```text
+Sequence 2 = lighting/show orchestration
+Macros 21-24 = tiny audio transition launchers
+Plugin 2 = audio logic, configuration, startup, and timing
+```
+
+## 7. Plugin 2 – Mushroom Control
+
+Plugin 2 is the single configuration/control location.
+
+Current important configuration:
+
+```lua
+M.CONFIG = {
+    audio = {
+        water        = { cc = 49, level = 45 },
+        night        = { cc = 50, level = 50 },
+        day          = { cc = 51, level = 50 },
+        thunderstorm = { cc = 52, level = 30 },
+        transport    = { cc = 53, level = 127 }
+    },
+
+    startup = {
+        waitForStudioOne = 10,
+        startExecutor106 = true
+    },
+
+    timing = {
+        day          = 40,
+        thunderstorm = 40,
+        rainbow      = 40,
+        rainbowOff   = 40,
+        newday       = 40,
+        dusk         = 40,
+        night        = 40,
+        dawn         = 40
+    },
+
+    fade = {
+        thunderstorm = 10,
+        rainbow      = 10
     }
+}
+```
 
-The plugin has been successfully executed and its configuration values verified.
+### What to edit
 
-Currently these configuration values do **not yet automatically update Sequence 2 or the audio macros**.
+Change sound levels only in `M.CONFIG.audio`.
 
-That is the next development step.
+Change state durations only in `M.CONFIG.timing`.
 
-## Planned Central Configuration
+Change Thunderstorm/return-to-Day audio crossfade durations in `M.CONFIG.fade`.
 
-The goal is for Mushroom Config to become the single place where show parameters are changed.
+Change startup delay with:
 
-For example:
+```lua
+waitForStudioOne = 10
+```
 
-    audio.day.level
-    audio.night.level
-    audio.thunderstorm.level
-    audio.water.level
+## 8. Audio Transition Macros
 
-and:
+Macro 21:
 
-    timing.day
-    timing.thunderstorm
-    timing.rainbow
-    timing.dusk
-    timing.night
-    timing.dawn
+```text
+Lua "Mushroom.Day()"
+```
 
-The plugin will eventually apply these values automatically to Sequence 2.
+Macro 22:
 
-This will allow, for example:
+```text
+Lua "Mushroom.Thunderstorm()"
+```
 
-    Thunderstorm = 30 sec
-    Rainbow = 60 sec
-    Dusk = 180 sec
-    Night = 600 sec
-    Dawn = 180 sec
+Macro 23:
 
-without manually editing every cue.
+```text
+Lua "Mushroom.Dusk()"
+```
 
-## State Duration vs Crossfade Duration
+Macro 24:
 
-These are deliberately separate concepts.
+```text
+Lua "Mushroom.Dawn()"
+```
 
-Example:
+The macros contain no hard-coded sound levels.
 
-    Thunderstorm duration = 40 sec
-    Thunderstorm audio fade = 10 sec
+## 9. Startup Behavior
 
-Dawn and Dusk are different: their Day/Night audio crossfades are intended to span essentially the entire Dawn/Dusk period.
+Plugin 2 startup currently:
 
-## Planned Smarter Audio Engine
+1. Applies configured Sequence 2 timings.
+2. Waits for Studio One / LoopBe.
+3. Sets:
+   - Water = 45
+   - Night = 0
+   - Day = 50
+   - Thunderstorm = 0
+4. Pulses CC53 to start Studio One transport.
+5. Starts Executor 106 at Cue 1 / Day.
 
-The current macros assume known starting levels.
+Manual reset:
 
-The planned Lua audio engine will instead:
+```text
+Lua "Mushroom.ResetStartup()"
+```
 
-1. Maintain the current audio levels.
-2. Accept a target state.
-3. Smoothly interpolate from the actual current levels to the target levels.
-4. Allow a new transition to interrupt a transition already in progress.
-5. Continue smoothly from whatever intermediate levels currently exist.
+Manual startup:
 
-This is particularly important for mushroom-triggered manual effects.
+```text
+Lua "Mushroom.Startup()"
+```
 
-For example, if Thunderstorm is triggered halfway through Dawn, the system should transition from the current Day/Night mixture rather than assuming either Day or Night is at full level.
+Plugin 2 has **Execute On Load = ON** for unattended startup.
 
-The same audio-state engine should eventually be used by both:
+## 10. Useful MA Commands
 
-- Automatic Daily Cycle cues
-- Mushroom/manual executor triggers
+Stop Daily Cycle:
 
-## MIDI Command Log Noise
+```text
+Off Executor 106
+```
 
-The current audio fade macros repeatedly execute commands such as:
+Start Daily Cycle:
 
-    MidiControl 51 ...
-    MidiControl 52 ...
+```text
+Go Executor 106
+```
 
-grandMA2 displays these commands in Command Line Feedback, producing substantial log noise during fades.
+Go directly to Day:
 
-A future improvement is to move audio fading into the Lua plugin and investigate a quieter MIDI output mechanism rather than repeatedly calling `gma.cmd("MidiControl ...")`.
+```text
+Goto Cue 1 Executor 106
+```
 
-Do not disable useful global command feedback merely to hide this noise until a better solution is implemented.
+Load Mushroom Control:
 
-## Current Working State
+```text
+Plugin 2
+```
 
-At this checkpoint:
+Read current timings:
 
-- Daily Cycle lighting works.
-- Lighting transitions work.
-- Daily Cycle continues underneath temporary effects.
-- Day audio works.
-- Night audio works.
-- Water audio works.
-- Thunderstorm audio works.
-- Day -> Thunderstorm audio crossfade works.
-- Thunderstorm -> Day audio crossfade works.
-- Day -> Night Dusk crossfade works.
-- Night -> Day Dawn crossfade works.
-- Dawn/Dusk audio duration follows the corresponding Sequence 2 cue timing.
-- Plugin 2 Mushroom Config exists and executes successfully.
+```text
+Lua "Mushroom.ReadTimings()"
+```
 
-## Backup Files
+## 11. Git Workflow
 
-The Git repository contains a current grandMA2 recovery show:
+Repository:
 
-    grandMA2/mushroom_forest_audio_working_2026-09-21.show.gz
+```text
+C:\Users\Mushroom Forrest\Desktop\mushroom_forest
+```
 
-The Studio One song has been saved as a self-contained copy containing the song and its media.
+Before each checkpoint:
 
-Studio One control-surface settings are also being preserved.
+1. Save Studio One with `Ctrl+S`.
+2. Save the grandMA2 show.
+3. Copy the live MA2 show into Git:
 
-Large WAV files are managed with Git LFS.
+```powershell
+Copy-Item "C:\ProgramData\MA Lighting Technologies\grandma\gma2_V_3.9.60\shows\mushroom_forest_current.show.gz" "C:\Users\Mushroom Forrest\Desktop\mushroom_forest\grandMA2\mushroom_forest_current.show.gz" -Force
+```
 
-## Next Steps
+4. Stage current files:
 
-When work resumes:
+```powershell
+git add "StudioOne/Mushroom Forest Sound_Current.song"
+git add "grandMA2/mushroom_forest_current.show.gz"
+git add "docs/mushroom_forest_current_state.md"
+```
 
-1. Preserve the current working MA show as the known-good checkpoint.
-2. Extend Mushroom Config so its timing values automatically update Sequence 2.
-3. Replace hard-coded audio levels in Macros 21-24 with centralized configuration values.
-4. Develop the state-aware/interruption-safe audio transition engine.
-5. Use the same audio-state mechanism for mushroom-triggered effects.
-6. Reduce MIDI command-line log noise.
-7. Tune actual audio levels while physically listening in the installation.
-8. Export the Lua plugin separately for readable Git version history.
+5. Commit and push:
 
-Do not remove or rewrite the currently working Macros 21-24 until their replacement has been tested successfully.
+```powershell
+git commit -m "Describe checkpoint here"
+git push
+```
+
+Studio One `Cache` and `History` are ignored.
+
+## 12. Current Room-Tuned Audio Values
+
+```text
+Water        45
+Day          50
+Night        50
+Thunderstorm 30
+```
+
+## 13. Known Studio One Details
+
+- Keep the duplicate hidden `night-forest` track muted.
+- The experimental master bus was not needed.
+- Existing AC sends are part of the working routing; do not remove them casually.
+- Transport must be running for sound; CC53 now starts it automatically.
+
+## 14. Next Development Steps
+
+1. Perform a true unattended Windows reboot test.
+2. Confirm Studio One always opens `Mushroom Forest Sound_Current.song`.
+3. Eliminate any MIDI-device startup prompt.
+4. Confirm Plugin 2 Execute On Load runs reliably after cold boot.
+5. Tune real show durations in `M.CONFIG.timing`.
+6. Move additional Sequence fade/delay settings into config if desired.
+7. Make audio transitions interruption-safe from actual current levels.
+8. Reduce MA2 command-log spam from repeated `MidiControl` calls.
+9. Export Mushroom Control as standalone Lua/XML for readable Git history.
+10. Automate MA2-to-Git checkpoint copying.
+
+## 15. Design Principle
+
+```text
+Edit configuration in one place.
+```
+
+That place is **Plugin 2 – Mushroom Control**.
+
+Avoid reintroducing hard-coded levels or times into Macros 21-24.
