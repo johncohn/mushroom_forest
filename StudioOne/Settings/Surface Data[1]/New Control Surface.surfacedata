@@ -2,7 +2,9 @@
 <SurfaceData surfaceID="{E2153FA7-7A1A-4764-9010-B2686B9A4A6C}">
 	<SurfaceDeviceAssignment deviceID="{11111111-1111-1111-1111-111111111111}" friendlyName="static">
 		<List x:id="pages">
-			<SurfaceAssignmentPage/>
+			<SurfaceAssignmentPage>
+				<Association key="controlb0035" value="param:///CommandTable/Transport.Start"/>
+			</SurfaceAssignmentPage>
 		</List>
 	</SurfaceDeviceAssignment>
 </SurfaceData>
