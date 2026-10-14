@@ -309,3 +309,43 @@ Edit configuration in one place.
 That place is **Plugin 2 – Mushroom Control**.
 
 Avoid reintroducing hard-coded levels or times into Macros 21-24.
+
+## 16. Automated Studio One Recovery (October 2026)
+
+### Scheduled Restarts
+Windows Task Scheduler runs RestartStudioOne.ps1 daily at 6:00 AM and 6:00 PM.
+Task: MushroomForest_StudioOne_Restart
+
+### Freeze Watchdog
+Watchdog/WatchStudioOne.ps1 checks Studio One every five minutes.
+HEALTHY: No action.
+FROZEN: Two consecutive unresponsive checks trigger recovery.
+NOT_RUNNING: Recovery starts immediately.
+A 15-minute cooldown prevents repeated watchdog restarts.
+A mutex prevents overlapping restart operations.
+Task: MushroomForest_StudioOne_Watchdog
+
+### Restart Procedure
+RestartStudioOne.ps1 requests a graceful shutdown and selects No when asked to save.
+If Studio One does not close within 15 seconds, it is forcibly terminated.
+StartStudioOne.ps1 launches the golden song, handles crash recovery, and sends Transport Start.
+Recovery verifies the process is responding and the correct song is loaded.
+IMPORTANT: Automatic restarts must NEVER save the golden Studio One song.
+
+### Logging
+Watchdog/RestartLog.csv records restart time, reason, initial state, shutdown method, result, and duration.
+Watchdog/WatchdogLog.csv records five-minute health checks and recovery actions.
+Watchdog/FrozenCount.txt stores consecutive failed checks.
+Watchdog/LastWatchdogRestart.txt stores the cooldown timestamp.
+Logs and temporary state files are excluded from Git.
+
+### Viewing Logs
+Import-Csv ".\Watchdog\RestartLog.csv" | Format-Table -AutoSize
+Import-Csv ".\Watchdog\WatchdogLog.csv" | Group-Object State,Action | Select-Object Count,Name
+
+### Limitations
+Audio playback is not independently verified.
+grandMA2 is not yet included in scheduled restarts.
+GUI automation requires an interactive Windows session.
+Unattended freeze recovery and full Windows reboot recovery still need testing.
+

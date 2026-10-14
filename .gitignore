@@ -1,2 +1,6 @@
 StudioOne/Cache/
 StudioOne/History/
+Watchdog/*.csv
+Watchdog/*.txt
+*.ps1.working-backup
+StartStudioOne_backup.ps1
