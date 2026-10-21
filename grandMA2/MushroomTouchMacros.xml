@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MA xmlns="http://schemas.malighting.de/grandma2/xml/MA" major_vers="3" minor_vers="9" stream_vers="60">
+  <Macro index="24" name="Touch Day"><Macroline index="0"><text>Lua "Mushroom.SelectNote(48)"</text></Macroline></Macro>
+  <Macro index="25" name="Touch Dusk"><Macroline index="0"><text>Lua "Mushroom.SelectNote(49)"</text></Macroline></Macro>
+  <Macro index="26" name="Touch Night"><Macroline index="0"><text>Lua "Mushroom.SelectNote(50)"</text></Macroline></Macro>
+  <Macro index="27" name="Touch Rainbow"><Macroline index="0"><text>Lua "Mushroom.SelectNote(51)"</text></Macroline></Macro>
+  <Macro index="28" name="Touch Thunderstorm"><Macroline index="0"><text>Lua "Mushroom.SelectNote(52)"</text></Macroline></Macro>
+  <Macro index="29" name="Period Day"><Macroline index="0"><text>Lua "Mushroom.OnCue('day')"</text></Macroline></Macro>
+  <Macro index="30" name="Period Thunderstorm"><Macroline index="0"><text>Lua "Mushroom.OnCue('thunderstorm')"</text></Macroline></Macro>
+  <Macro index="31" name="Period Rainbow"><Macroline index="0"><text>Lua "Mushroom.OnCue('rainbow')"</text></Macroline></Macro>
+  <Macro index="32" name="Period Rainbow Off"><Macroline index="0"><text>Lua "Mushroom.OnCue('rainbowOff')"</text></Macroline></Macro>
+  <Macro index="33" name="Period New Day"><Macroline index="0"><text>Lua "Mushroom.OnCue('newday')"</text></Macroline></Macro>
+  <Macro index="34" name="Period Dusk"><Macroline index="0"><text>Lua "Mushroom.OnCue('dusk')"</text></Macroline></Macro>
+  <Macro index="35" name="Period Night"><Macroline index="0"><text>Lua "Mushroom.OnCue('night')"</text></Macroline></Macro>
+  <Macro index="36" name="Period Dawn"><Macroline index="0"><text>Lua "Mushroom.OnCue('dawn')"</text></Macroline></Macro>
+</MA>

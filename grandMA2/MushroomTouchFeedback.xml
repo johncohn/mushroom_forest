@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MA xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.malighting.de/grandma2/xml/MA" major_vers="3" minor_vers="9" stream_vers="60">
+  <Sequ index="0" name="Mushroom Touch 48" timecode_slot="255" forced_position_mode="0">
+    <Cue xsi:nil="true" />
+    <Cue index="1"><Number number="1" sub_number="0" /><CueDatas>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1102" channel_id="1102" attribute_name="DIM" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1102" channel_id="1102" attribute_name="COLORRGB1" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1102" channel_id="1102" attribute_name="COLORRGB2" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1102" channel_id="1102" attribute_name="COLORRGB3" /><Value>100</Value></CueData>
+    </CueDatas><CuePart index="0" basic_fade="0" basic_downfade="0" /></Cue>
+  </Sequ>
+  <Sequ index="1" name="Mushroom Touch 49" timecode_slot="255" forced_position_mode="0">
+    <Cue xsi:nil="true" />
+    <Cue index="1"><Number number="1" sub_number="0" /><CueDatas>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1101" channel_id="1101" attribute_name="DIM" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1101" channel_id="1101" attribute_name="COLORRGB1" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1101" channel_id="1101" attribute_name="COLORRGB2" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1101" channel_id="1101" attribute_name="COLORRGB3" /><Value>100</Value></CueData>
+    </CueDatas><CuePart index="0" basic_fade="0" basic_downfade="0" /></Cue>
+  </Sequ>
+  <Sequ index="2" name="Mushroom Touch 50" timecode_slot="255" forced_position_mode="0">
+    <Cue xsi:nil="true" />
+    <Cue index="1"><Number number="1" sub_number="0" /><CueDatas>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1104" channel_id="1104" attribute_name="DIM" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1104" channel_id="1104" attribute_name="COLORRGB1" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1104" channel_id="1104" attribute_name="COLORRGB2" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1104" channel_id="1104" attribute_name="COLORRGB3" /><Value>100</Value></CueData>
+    </CueDatas><CuePart index="0" basic_fade="0" basic_downfade="0" /></Cue>
+  </Sequ>
+  <Sequ index="3" name="Mushroom Touch 51" timecode_slot="255" forced_position_mode="0">
+    <Cue xsi:nil="true" />
+    <Cue index="1"><Number number="1" sub_number="0" /><CueDatas>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1105" channel_id="1105" attribute_name="DIM" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1105" channel_id="1105" attribute_name="COLORRGB1" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1105" channel_id="1105" attribute_name="COLORRGB2" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1105" channel_id="1105" attribute_name="COLORRGB3" /><Value>100</Value></CueData>
+    </CueDatas><CuePart index="0" basic_fade="0" basic_downfade="0" /></Cue>
+  </Sequ>
+  <Sequ index="4" name="Mushroom Touch 52" timecode_slot="255" forced_position_mode="0">
+    <Cue xsi:nil="true" />
+    <Cue index="1"><Number number="1" sub_number="0" /><CueDatas>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1103" channel_id="1103" attribute_name="DIM" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1103" channel_id="1103" attribute_name="COLORRGB1" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1103" channel_id="1103" attribute_name="COLORRGB2" /><Value>100</Value></CueData>
+      <CueData value_multipart_index="0" effect_multipart_index="0"><Channel fixture_id="1103" channel_id="1103" attribute_name="COLORRGB3" /><Value>100</Value></CueData>
+    </CueDatas><CuePart index="0" basic_fade="0" basic_downfade="0" /></Cue>
+  </Sequ>
+</MA>
